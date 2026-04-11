@@ -2,6 +2,38 @@
 
 > **Never let your status go "Away" again** – Keep your system awake and maintain an "Available" status in Teams, Slack, Zoom, Discord, and more.
 
+---
+
+## 🛡️ IMPORTANT: Before You Download
+
+### ⚠️ Windows SmartScreen Warning - What to Expect
+
+**When downloading StayAwake.exe, you WILL see this warning:**
+
+> ❌ **"Windows protected your PC"**  
+> **"Windows Defender SmartScreen prevented an unrecognized app from starting. Don't run this app unless you trust it."**
+
+**This is 100% NORMAL and SAFE!** Here's why and what to do:
+
+| Question | Answer |
+|----------|--------|
+| **Why does this happen?** | StayAwake is a new open-source app that hasn't built up reputation with Microsoft yet |
+| **Is it safe?** | ✅ Yes! The code is fully open-source and auditable |
+| **How do I run it?** | Click **"More info"** → then **"Run anyway"** |
+| **Will this happen every time?** | ❌ No! Only the first time. The warning disappears after you run it once |
+| **How can I avoid this completely?** | Build it yourself (instructions below) - no warnings, ever! |
+
+**Your Options:**
+
+| Option | Difficulty | SmartScreen Warning |
+|--------|------------|---------------------|
+| **1. Download & Run** | ⭐ Easy | ⚠️ Yes (first time only, click "Run anyway") |
+| **2. Download ZIP & Build** | ⭐ Easy | ✅ No warnings whatsoever |
+| **3. Clone & Build** | ⭐⭐ One-time setup | ✅ No warnings whatsoever |
+
+---
+
+[![Build and Release](https://github.com/mc343/StayAwake/actions/workflows/release.yml/badge.svg)](https://github.com/mc343/StayAwake/actions/workflows/release.yml)
 [![GitHub release](https://img.shields.io/github/v/release/mc343/StayAwake)](https://github.com/mc343/StayAwake/releases)
 [![License](https://img.shields.io/github/license/mc343/StayAwake)](LICENSE)
 [![Downloads](https://img.shields.io/github/downloads/mc343/StayAwake/total)](https://github.com/mc343/StayAwake/releases)
@@ -88,18 +120,60 @@
 
 ## 🎬 Quick Start
 
-### Option 1: Download & Run (Easiest)
-1. **Download** the latest `StayAwake.exe` from [Releases](https://github.com/mc343/StayAwake/releases)
-2. **Double-click** to run (no installation needed!)
-3. **Select duration** and click **START**
-4. **Done!** Your system stays awake and status remains "Available"
+### Option 1: Download & Run
 
-### Option 2: Build from Source
+1. **Download** the latest `StayAwake.exe` from [Releases](https://github.com/mc343/StayAwake/releases)
+2. **Double-click** to run
+3. **If you see the SmartScreen warning:** Click **"More info"** → **"Run anyway"**
+4. **Done!** The warning won't appear again after the first run
+
+---
+
+### Option 2: Download ZIP & Build (No warnings, easiest!)
+
+**Perfect if you want to avoid the SmartScreen warning without installing git!**
+
+1. **Download the source code ZIP:**
+   - Go to [github.com/mc343/StayAwake](https://github.com/mc343/StayAwake)
+   - Click the green **"Code"** button
+   - Select **"Download ZIP"**
+   - Extract the downloaded file anywhere
+
+2. **Double-click `build-exe.bat`** inside the extracted folder
+
+   That's it! The batch file will:
+   - Check if .NET 8 SDK is installed (install if needed from [dotnet.microsoft.com](https://dotnet.microsoft.com/download/dotnet/8.0))
+   - Build the executable for you
+   - Open the folder with your new `StayAwake.exe`
+
+3. **Run your freshly built EXE**—no warnings, ever!
+
+---
+
+### Option 3: Clone & Build (For developers)
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/mc343/StayAwake.git
+   cd StayAwake
+   ```
+
+2. **Double-click `build-exe.bat`** (or run manually below)
+
+**Or build manually:**
 ```bash
-git clone https://github.com/mc343/StayAwake.git
-cd StayAwake/src
+cd src
 dotnet publish -c Release -r win-x64 --self-contained
+# Find the exe in: bin\Release\net8.0-windows\win-x64\StayAwake.exe
 ```
+
+---
+
+## 🚀 Quick Start (After you have the EXE)
+
+1. **Double-click** `StayAwake.exe` (no installation needed!)
+2. **Select duration** and click **START**
+3. **Done!** Your system stays awake and status remains "Available"
 
 ---
 
@@ -188,6 +262,7 @@ StayAwake.exe --minimize
 - ✅ **Open Source** – Code is transparent and auditable
 - ✅ **No Admin Rights** – Runs in user context
 - ✅ **Portable** – No installation, no registry changes
+- ✅ **Build It Yourself** – Full control, zero trust required
 
 **What it does:** Simulates mouse/keyboard input locally
 **What it doesn't do:** Monitor your screen, track activity, send data

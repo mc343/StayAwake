@@ -1,0 +1,92 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish
+      run: |
+        cd src
+        dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -o ../publish
+
+    - name: Create Zip
+      run: |
+        cd publish
+        7z a -tzip ../StayAwake-win-x64.zip *
+        cd ..
+
+    - name: Generate Release Notes
+      id: release_notes
+      run: |
+        "## ⏰ StayAwake ${{ github.ref_name }}" | Out-File -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "---" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### 🛡️ IMPORTANT: Windows SmartScreen Warning" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "**When you run StayAwake for the first time, you WILL see this warning:**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "> ❌ **'Windows protected your PC'**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "> 'Windows Defender SmartScreen prevented an unrecognized app from starting.'" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "**This is 100% NORMAL and SAFE!**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### What to do:" | Out-File -Append -Encoding UTF8 release-notes.md
+        "1. Click **'More info'**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "2. Click **'Run anyway'**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "3. Done! The warning will never appear again" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### Why does this happen?" | Out-File -Append -Encoding UTF8 release-notes.md
+        "StayAwake is a new open-source app that hasn't built up reputation with Microsoft yet." | Out-File -Append -Encoding UTF8 release-notes.md
+        "The warning automatically disappears as more people run StayAwake. **This is NOT a virus or malware.**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### Want to avoid this completely?" | Out-File -Append -Encoding UTF8 release-notes.md
+        "Build StayAwake yourself! No git required - just download and build:" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "1. Go to [github.com/mc343/StayAwake](https://github.com/mc343/StayAwake)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "2. Click the green **'Code'** button → **'Download ZIP'**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "3. Extract the ZIP" | Out-File -Append -Encoding UTF8 release-notes.md
+        "4. Double-click `build-exe.bat`" | Out-File -Append -Encoding UTF8 release-notes.md
+        "5. Run your freshly built EXE - no warnings, ever!" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "---" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### 📥 Downloads" | Out-File -Append -Encoding UTF8 release-notes.md
+        "- **StayAwake-win-x64.zip** - Standalone executable (no installation required)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### 🔐 Verification" | Out-File -Append -Encoding UTF8 release-notes.md
+        "SHA-256: ```${{ hashFiles('publish/StayAwake.exe') }```" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### ✅ Safety Guarantees" | Out-File -Append -Encoding UTF8 release-notes.md
+        "- 📖 100% Open Source - [View full code](https://github.com/mc343/StayAwake)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "- 🌐 Works 100% offline - no data collected or transmitted" | Out-File -Append -Encoding UTF8 release-notes.md
+        "- 🔨 Build it yourself for complete trust" | Out-File -Append -Encoding UTF8 release-notes.md
+        Get-Content release-notes.md
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: StayAwake-win-x64.zip
+        body_path: release-notes.md
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
