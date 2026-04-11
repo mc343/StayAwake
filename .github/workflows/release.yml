@@ -63,13 +63,7 @@ jobs:
         "The warning automatically disappears as more people run StayAwake. **This is NOT a virus or malware.**" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
         "### Want to avoid this completely?" | Out-File -Append -Encoding UTF8 release-notes.md
-        "Build StayAwake yourself! No git required - just download and build:" | Out-File -Append -Encoding UTF8 release-notes.md
-        "" | Out-File -Append -Encoding UTF8 release-notes.md
-        "1. Go to [github.com/mc343/StayAwake](https://github.com/mc343/StayAwake)" | Out-File -Append -Encoding UTF8 release-notes.md
-        "2. Click the green **'Code'** button → **'Download ZIP'**" | Out-File -Append -Encoding UTF8 release-notes.md
-        "3. Extract the ZIP" | Out-File -Append -Encoding UTF8 release-notes.md
-        "4. Double-click `build-exe.bat`" | Out-File -Append -Encoding UTF8 release-notes.md
-        "5. Run your freshly built EXE - no warnings, ever!" | Out-File -Append -Encoding UTF8 release-notes.md
+        "Build StayAwake yourself! See the build guides below 👇" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
         "---" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
@@ -80,11 +74,45 @@ jobs:
         "| **StayAwake-win-x64.zip** | Pre-built executable (ready to run) | ⚠️ Yes (first time only) |" | Out-File -Append -Encoding UTF8 release-notes.md
         "| **StayAwake-source.zip** | Source code + build script (build it yourself) | ✅ No warnings |" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
-        "### How to use StayAwake-source.zip (No warnings!)" | Out-File -Append -Encoding UTF8 release-notes.md
-        "1. Download `StayAwake-source.zip`" | Out-File -Append -Encoding UTF8 release-notes.md
-        "2. Extract the ZIP file" | Out-File -Append -Encoding UTF8 release-notes.md
-        "3. Double-click `build-exe.bat`" | Out-File -Append -Encoding UTF8 release-notes.md
-        "4. Run the built `StayAwake.exe` - no warnings, ever!" | Out-File -Append -Encoding UTF8 release-notes.md
+        "---" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### 🔨 Build Guide: Option 2 - Download ZIP & Build (Easiest, No Warnings!)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "**Perfect if you want to avoid the SmartScreen warning without installing git!**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "1. **Download `StayAwake-source.zip`** from this release" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "2. **Extract the ZIP file** anywhere on your computer" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "3. **Double-click `build-exe.bat`** inside the extracted folder" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   That's it! The batch file will:" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   - Check if .NET 8 SDK is installed (install if needed from [dotnet.microsoft.com](https://dotnet.microsoft.com/download/dotnet/8.0))" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   - Build the executable for you" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   - Open the folder with your new `StayAwake.exe`" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "4. **Run your freshly built EXE**—no warnings, ever!" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "---" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### 🔨 Build Guide: Option 3 - Clone & Build (For Developers)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "**For developers who want to work with the source code directly.**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "1. **Clone the repository:**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   ```bash" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   git clone https://github.com/mc343/StayAwake.git" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   cd StayAwake" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   ```" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "2. **Double-click `build-exe.bat`** (or run manually below)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "**Or build manually:**" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   ```bash" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   cd src" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   dotnet publish -c Release -r win-x64 --self-contained" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   # Find the exe in: bin\Release\net8.0-windows\win-x64\StayAwake.exe" | Out-File -Append -Encoding UTF8 release-notes.md
+        "   ```" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
         "### 🔐 Verification" | Out-File -Append -Encoding UTF8 release-notes.md
         "SHA-256: ```${{ hashFiles('publish/StayAwake.exe') }```" | Out-File -Append -Encoding UTF8 release-notes.md
