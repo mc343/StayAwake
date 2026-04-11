@@ -133,20 +133,20 @@
 
 **Perfect if you want to avoid the SmartScreen warning without installing git!**
 
-1. **Download the source code ZIP:**
-   - Go to [github.com/mc343/StayAwake](https://github.com/mc343/StayAwake)
-   - Click the green **"Code"** button
-   - Select **"Download ZIP"**
-   - Extract the downloaded file anywhere
+1. **Download `StayAwake-source.zip`** from the [Releases](https://github.com/mc343/StayAwake/releases) page
 
-2. **Double-click `build-exe.bat`** inside the extracted folder
+2. **Extract the ZIP file** anywhere
+
+3. **Double-click `build-exe.bat`** inside the extracted folder
 
    That's it! The batch file will:
    - Check if .NET 8 SDK is installed (install if needed from [dotnet.microsoft.com](https://dotnet.microsoft.com/download/dotnet/8.0))
    - Build the executable for you
    - Open the folder with your new `StayAwake.exe`
 
-3. **Run your freshly built EXE**—no warnings, ever!
+4. **Run your freshly built EXE**—no warnings, ever!
+
+> **Alternative:** You can also download source code directly from [github.com/mc343/StayAwake](https://github.com/mc343/StayAwake) → **Code** button → **Download ZIP**
 
 ---
 

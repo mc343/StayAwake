@@ -33,6 +33,10 @@ jobs:
         7z a -tzip ../StayAwake-win-x64.zip *
         cd ..
 
+    - name: Create Source ZIP
+      run: |
+        Compress-Archive -Path * -DestinationPath StayAwake-source.zip -Force -CompressionLevel Optimal -Exclude 'publish','*.zip','.git','.github','*obj','*bin','DOWNLOAD_NOTES.md','build-*.ps1','create-*.ps1','sign-*.ps1'
+
     - name: Generate Release Notes
       id: release_notes
       run: |
@@ -70,7 +74,17 @@ jobs:
         "---" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
         "### 📥 Downloads" | Out-File -Append -Encoding UTF8 release-notes.md
-        "- **StayAwake-win-x64.zip** - Standalone executable (no installation required)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "| File | Description | SmartScreen Warning |" | Out-File -Append -Encoding UTF8 release-notes.md
+        "|------|-------------|---------------------|" | Out-File -Append -Encoding UTF8 release-notes.md
+        "| **StayAwake-win-x64.zip** | Pre-built executable (ready to run) | ⚠️ Yes (first time only) |" | Out-File -Append -Encoding UTF8 release-notes.md
+        "| **StayAwake-source.zip** | Source code + build script (build it yourself) | ✅ No warnings |" | Out-File -Append -Encoding UTF8 release-notes.md
+        "" | Out-File -Append -Encoding UTF8 release-notes.md
+        "### How to use StayAwake-source.zip (No warnings!)" | Out-File -Append -Encoding UTF8 release-notes.md
+        "1. Download `StayAwake-source.zip`" | Out-File -Append -Encoding UTF8 release-notes.md
+        "2. Extract the ZIP file" | Out-File -Append -Encoding UTF8 release-notes.md
+        "3. Double-click `build-exe.bat`" | Out-File -Append -Encoding UTF8 release-notes.md
+        "4. Run the built `StayAwake.exe` - no warnings, ever!" | Out-File -Append -Encoding UTF8 release-notes.md
         "" | Out-File -Append -Encoding UTF8 release-notes.md
         "### 🔐 Verification" | Out-File -Append -Encoding UTF8 release-notes.md
         "SHA-256: ```${{ hashFiles('publish/StayAwake.exe') }```" | Out-File -Append -Encoding UTF8 release-notes.md
@@ -84,7 +98,9 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: StayAwake-win-x64.zip
+        files: |
+          StayAwake-win-x64.zip
+          StayAwake-source.zip
         body_path: release-notes.md
         draft: false
         prerelease: false
