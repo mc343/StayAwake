@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 $DotNetVersion = "8.0"
 $DotNetInstallerUrl = "https://dot.net/v1/dotnet-install.ps1"
 $DesktopPath = [Environment]::GetFolderPath("Desktop")
-$ProjectDir = Split-Path -Parent $PSScriptRoot
+$ProjectDir = $PSScriptRoot
 
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host "  StayAwake - .NET SDK Installation Script" -ForegroundColor Cyan
@@ -27,6 +27,24 @@ function Test-DotNetInstalled {
     catch {
         return $false
     }
+    return $false
+}
+
+function Add-DotNetToPath {
+    $dotnetPath = "$env:USERPROFILE\.dotnet"
+    if (Test-Path (Join-Path $dotnetPath "dotnet.exe")) {
+        if ($env:PATH -notlike "*$dotnetPath*") {
+            $env:PATH = "$dotnetPath;$env:PATH"
+        }
+
+        $userPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+        if ($userPath -notlike "*$dotnetPath*") {
+            [Environment]::SetEnvironmentVariable("PATH", "$dotnetPath;$userPath", "User")
+        }
+
+        return $true
+    }
+
     return $false
 }
 
@@ -56,23 +74,14 @@ function Install-DotNetSdk {
         # Install .NET SDK
         & $installerPath -Version Latest -Channel $DotNetVersion -InstallDir "$env:USERPROFILE\.dotnet"
 
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host ".NET SDK installed successfully!" -ForegroundColor Green
-
-            # Add to PATH for current session
-            $dotnetPath = "$env:USERPROFILE\.dotnet"
-            if ($env:PATH -notlike "*$dotnetPath*") {
-                $env:PATH = "$dotnetPath;$env:PATH"
-                [Environment]::SetEnvironmentVariable("PATH", "$dotnetPath;" + [Environment]::GetEnvironmentVariable("PATH", "User"), "User")
-                Write-Host "Added to PATH (may require terminal restart)" -ForegroundColor Green
-            }
-
+        if ((Add-DotNetToPath) -and (Test-DotNetInstalled)) {
+            Write-Host ".NET SDK is available." -ForegroundColor Green
+            Write-Host "Added to PATH (may require terminal restart)" -ForegroundColor Green
             return $true
         }
-        else {
-            Write-Host "Installation failed with exit code: $LASTEXITCODE" -ForegroundColor Red
-            return $false
-        }
+
+        Write-Host "Installation failed to make .NET SDK available." -ForegroundColor Red
+        return $false
     }
     catch {
         Write-Host "Installation failed: $_" -ForegroundColor Red
@@ -94,8 +103,8 @@ function Build-StayAwake {
     Write-Host "================================================" -ForegroundColor Cyan
     Write-Host ""
 
-    $srcDir = Join-Path $ProjectDir "StayAwake\src"
-    $binDir = Join-Path $ProjectDir "StayAwake\bin"
+    $srcDir = Join-Path $ProjectDir "src"
+    $binDir = Join-Path $ProjectDir "bin"
 
     if (-not (Test-Path $srcDir)) {
         Write-Host "Error: Source directory not found: $srcDir" -ForegroundColor Red
@@ -134,6 +143,7 @@ function Build-StayAwake {
                 Write-Host ""
                 Write-Host "You can now run StayAwake.exe or copy it anywhere!" -ForegroundColor Green
                 Write-Host ""
+                Invoke-Item $binDir
 
                 return $true
             }
@@ -162,7 +172,7 @@ function Create-DesktopShortcut {
 
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut("$DesktopPath\StayAwake.lnk")
-    $Shortcut.TargetPath = Join-Path $ProjectDir "StayAwake\bin\StayAwake.exe"
+    $Shortcut.TargetPath = Join-Path $ProjectDir "bin\StayAwake.exe"
     $Shortcut.Description = "Keep your system awake and status active"
     $Shortcut.Save()
 
